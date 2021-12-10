@@ -296,7 +296,7 @@ def alertCaptcha():
         return "not-found"
 
     logger('Captcha!')
-    test = telegramBot.sendText("⚠️ ATENÇÃO! \n\n 🧩 RESOLVER NOVO CAPTCHA!")
+    test = telegramBot.sendText("⚠️ ATENÇÃO! \n\n 🧩 RESOLVER NOVO CAPTCHA! \n\n ⚠️ Aguarde todas as imagens antes de responder!")
     bell_sound.play()
 
     #linha para testes
@@ -327,6 +327,8 @@ def alertCaptcha():
 
     slider_positions = []
     x,y = slider_start_pos
+    telegram_message_options = ''
+
     for i in range(5):
         if i == 0:
             pyautogui.moveTo(x, y, 1)
@@ -355,7 +357,9 @@ def alertCaptcha():
         telegramBot.sendText(f'Imagem /{i + 1}')
         telegramBot.sendPhoto(img_captcha_dir)
 
-    telegramBot.sendText('Atenção responda  apenas com o número da posição desejada \n\r (/1)\n\r (/2)\n\r (/3)\n\r (/4)')
+        telegram_message_options += f'\n\r (/{i+1})'
+
+    telegramBot.sendText('Atenção! digite uma das opções exatamente como exibido: ' + telegram_message_options)
 
     qtd_messages_sended = len(telegramBot.getUpdates())
     user_response = 0
