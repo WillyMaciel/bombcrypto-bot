@@ -80,6 +80,17 @@ print('>>---> Telegram Bot CREATED \n')
 
 telegramBot.sendText('💣 BOT INICIADO! Colocando os adrianinho pra trabalhar...')
 
+#Retorna tipos aleatórios de efeitos na movimentação do mouse
+def getRandomEasing():
+    easings = [
+        pyautogui.easeInQuad,
+        pyautogui.easeOutQuad,
+        pyautogui.easeInOutQuad,
+        pyautogui.easeInBounce,
+        pyautogui.easeInElastic
+    ]
+
+    return easings[randint(0, len(easings) -1)]
 
 def addRandomness(n, randomn_factor_size=None):
     if randomn_factor_size is None:
@@ -94,8 +105,13 @@ def addRandomness(n, randomn_factor_size=None):
     # logger('{} with randomness -> {}'.format(int(n), randomized_n))
     return int(randomized_n)
 
-def moveToWithRandomness(x,y,t):
-    pyautogui.moveTo(addRandomness(x,10),addRandomness(y,10),t+random()/2)
+def moveToWithRandomness(x,y,t=None):
+    ft = c['time_intervals']['mouse_base_speed']
+
+    if t is not None:
+        ft = t
+
+    pyautogui.moveTo(addRandomness(x,10),addRandomness(y,10),ft+random()/2, getRandomEasing())
 
 
 def remove_suffix(input_string, suffix):
@@ -395,7 +411,7 @@ def clickBtn(img,name=None, timeout=3, threshold = ct['default']):
         pos_click_x = x+w/2
         pos_click_y = y+h/2
         # mudar moveto pra w randomness
-        moveToWithRandomness(pos_click_x,pos_click_y,1)
+        moveToWithRandomness(pos_click_x,pos_click_y)
         pyautogui.click()
         return True
 
@@ -434,7 +450,7 @@ def scroll():
         return
     x,y,w,h = commoms[len(commoms)-1]
 #
-    moveToWithRandomness(x,y,1)
+    moveToWithRandomness(x,y)
 
     if not c['use_click_and_drag_instead_of_scroll']:
         pyautogui.scroll(-c['scroll_size'])
@@ -446,7 +462,7 @@ def clickButtons():
     buttons = positions(images['go-work'], threshold=ct['go_to_work_btn'])
     # print('buttons: {}'.format(len(buttons)))
     for (x, y, w, h) in buttons:
-        moveToWithRandomness(x+(w/2),y+(h/2),1)
+        moveToWithRandomness(x+(w/2),y+(h/2))
         pyautogui.click()
         global hero_clicks
         hero_clicks = hero_clicks + 1
@@ -498,7 +514,7 @@ def clickGreenBarButtons():
     # se tiver botao com y maior que bar y-10 e menor que y+10
     for (x, y, w, h) in not_working_green_bars:
         # isWorking(y, buttons)
-        moveToWithRandomness(x+offset+(w/2),y+(h/2),1)
+        moveToWithRandomness(x+offset+(w/2),y+(h/2))
         pyautogui.click()
         global hero_clicks
         hero_clicks = hero_clicks + 1
@@ -522,7 +538,7 @@ def clickFullBarButtons():
         logger('👆 Clicking in %d heroes' % len(not_working_full_bars))
 
     for (x, y, w, h) in not_working_full_bars:
-        moveToWithRandomness(x+offset+(w/2),y+(h/2),1)
+        moveToWithRandomness(x+offset+(w/2),y+(h/2))
         pyautogui.click()
         global hero_clicks
         hero_clicks = hero_clicks + 1
@@ -640,7 +656,7 @@ def sendHeroesHome():
             print(isWorking(position, go_work_buttons))
             if(not isWorking(position, go_work_buttons)):
                 print ('hero not working, sending him home')
-                moveToWithRandomness(go_home_buttons[0][0]+go_home_buttons[0][2]/2,position[1]+position[3]/2,1)
+                moveToWithRandomness(go_home_buttons[0][0]+go_home_buttons[0][2]/2,position[1]+position[3]/2)
                 pyautogui.click()
             else:
                 print ('hero working, not sending him home(no dark work button)')
