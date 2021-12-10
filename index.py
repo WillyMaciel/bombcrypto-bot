@@ -341,11 +341,11 @@ def alertCaptcha():
 
     telegramBot.sendText('Atenção responda  apenas com o número da posição desejada \n\r (/1)\n\r (/2)\n\r (/3)\n\r (/4)')
 
-    qtd_messages_sended = len(bot.getUpdates())
+    qtd_messages_sended = len(telegramBot.getUpdates())
     user_response = 0
     # await user to response
     while True:
-        messages_now = bot.getUpdates()
+        messages_now = telegramBot.getUpdates()
         if len(messages_now) > qtd_messages_sended and messages_now[len(messages_now) -1].message.text.replace('/','').isdigit:
             user_response = int(messages_now[len(messages_now) -1].message.text.replace('/',''))
             break

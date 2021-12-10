@@ -26,3 +26,6 @@ class Bot():
             return self.botInstance.send_photo(chat_id=self.chat_id, photo=open(photo_path, 'rb'))
         except:
             return 0
+
+    def getUpdates(self):
+        return self.botInstance.getUpdates()
