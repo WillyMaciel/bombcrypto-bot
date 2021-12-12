@@ -81,7 +81,7 @@ except FileNotFoundError:
     open("telegram_last_msg_id.txt", 'x')
 
 
-telegramBot.sendText('💣 BOT INICIADO! Colocando os adrianinho pra trabalhar...')
+#telegramBot.sendText('💣 BOT INICIADO! Colocando os adrianinho pra trabalhar...')
 
 #Retorna tipos aleatórios de efeitos na movimentação do mouse
 def getRandomEasing():
@@ -523,6 +523,8 @@ def login():
         solveCaptcha()
         login_attempts = login_attempts + 1
         logger('🎉 Connect wallet button detected, logging in!')
+        telegramBot.sendText("⚠️ ATENÇÃO! Foi detectado que o jogo desconectou!!")
+        telegramBot.sendPhoto(printScreenAndSave())
         #TODO mto ele da erro e poco o botao n abre
         # time.sleep(10)
 
@@ -634,6 +636,12 @@ def refreshHeroes():
     logger('💪 {} heroes sent to work'.format(hero_clicks))
     goToGame()
 
+def printScreenAndSave():
+    ss = pyautogui.screenshot()
+    img_path = os.path.dirname(os.path.realpath(__file__)) + r'\screenshots\ss_' + str(time.time()) + '.png'
+    ss.save(img_path, format="png")
+    return img_path
+
 def telegramBotController():
 
     updates = telegramBot.getUpdates()
@@ -654,13 +662,9 @@ def telegramBotController():
 
     if new_message.text == '/printscreen':
 
-        ss = pyautogui.screenshot()
-        img_path = os.path.dirname(os.path.realpath(__file__)) + r'\screenshots\ss_' + str(time.time()) + '.png'
-        ss.save(img_path, format="png")
-
         logger('📸 Enviando PrintScreen no Telegram')
         telegramBot.sendText("📸 Segue o print da tela:")
-        telegramBot.sendPhoto(img_path)
+        telegramBot.sendPhoto(printScreenAndSave())
         return
 
     telegramBot.sendText("Comando não reconhecido!")
