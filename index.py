@@ -81,7 +81,7 @@ except FileNotFoundError:
     open("telegram_last_msg_id.txt", 'x')
 
 
-# telegramBot.sendText('💣 BOT INICIADO! Colocando os adrianinho pra trabalhar...')
+telegramBot.sendText('💣 BOT INICIADO! Colocando os adrianinho pra trabalhar...')
 
 #Retorna tipos aleatórios de efeitos na movimentação do mouse
 def getRandomEasing():
