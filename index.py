@@ -658,8 +658,8 @@ def telegramBotController():
         img_path = os.path.dirname(os.path.realpath(__file__)) + r'\screenshots\ss_' + str(time.time()) + '.png'
         ss.save(img_path, format="png")
 
-        logger('Enviando PrintScreen no Telegram')
-        telegramBot.sendText("Segue o print da tela:")
+        logger('📸 Enviando PrintScreen no Telegram')
+        telegramBot.sendText("📸 Segue o print da tela:")
         telegramBot.sendPhoto(img_path)
         return
 
