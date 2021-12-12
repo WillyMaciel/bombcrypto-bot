@@ -75,7 +75,13 @@ last_log_is_progress = False
 telegramBot = telegram.newBot(os.getenv('TELEGRAM_BOT_TOKEN'), os.getenv('TELEGRAM_CHAT_ID'))
 print('>>---> Telegram Bot CREATED \n')
 
-telegramBot.sendText('💣 BOT INICIADO! Colocando os adrianinho pra trabalhar...')
+try:
+    open("telegram_last_msg_id.txt")
+except FileNotFoundError:
+    open("telegram_last_msg_id.txt", 'x')
+
+
+# telegramBot.sendText('💣 BOT INICIADO! Colocando os adrianinho pra trabalhar...')
 
 #Retorna tipos aleatórios de efeitos na movimentação do mouse
 def getRandomEasing():
@@ -628,12 +634,43 @@ def refreshHeroes():
     logger('💪 {} heroes sent to work'.format(hero_clicks))
     goToGame()
 
+def telegramBotController():
+
+    updates = telegramBot.getUpdates()
+
+    new_message = updates[len(updates) - 1].message
+
+    f = open("telegram_last_msg_id.txt", "r")
+    last_message_saved = f.readline()
+    f.close()
+
+    if str(new_message.message_id) == str(last_message_saved):
+        return
+
+    f = open("telegram_last_msg_id.txt", "w")
+    f.write(str(new_message.message_id))
+    f.close()
+
+
+    if new_message.text == '/printscreen':
+
+        ss = pyautogui.screenshot()
+        img_path = os.path.dirname(os.path.realpath(__file__)) + r'\screenshots\ss_' + str(time.time()) + '.png'
+        ss.save(img_path, format="png")
+
+        telegramBot.sendText("Segue o print da tela:")
+        telegramBot.sendPhoto(img_path)
+        return
+
+    telegramBot.sendText("Comando não reconhecido!")
+
 
 def main():
     time.sleep(5)
     t = c['time_intervals']
 
     last = {
+    "check_telegram_commands" : 0,
     "login" : 0,
     "heroes" : 0,
     "new_map" : 0,
@@ -643,6 +680,10 @@ def main():
 
     while True:
         now = time.time()
+
+        if now - last["check_telegram_commands"] > 5:
+            telegramBotController()
+            last["check_telegram_commands"] = now
 
         if now - last["check_for_captcha"] > addRandomness(t['check_for_captcha'] * 60):
             last["check_for_captcha"] = now
