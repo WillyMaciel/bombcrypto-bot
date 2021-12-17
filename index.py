@@ -649,6 +649,10 @@ def telegramBotController():
 
     updates = telegramBot.getUpdates()
 
+    if updates == 0:
+        logger('Erro ao pegar updates do telegram')
+        return
+
     new_message = updates[len(updates) - 1].message
 
     f = open("telegram_last_msg_id.txt", "r")

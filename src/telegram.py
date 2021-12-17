@@ -28,4 +28,7 @@ class Bot():
             return 0
 
     def getUpdates(self):
-        return self.botInstance.getUpdates()
+        try:
+            return self.botInstance.getUpdates()
+        except
+            return 0
