@@ -39,19 +39,22 @@ cat = """
                                                .*' /  .*' ; .*`- +'  `*'
                                                `*-*   `*-*  `*-*'
 =========================================================================
-================ Please, consider buying me an coffe :) =================
+========== 💰 Have I helped you in any way? All I ask is a tip! 🧾 ======
+========== ✨ Faça sua boa ação de hoje, manda aquela gorjeta! 😊 =======
 =========================================================================
+======================== vvv BCOIN BUSD BNB vvv =========================
 ============== 0xbd06182D8360FB7AC1B05e871e56c76372510dDf ===============
+=========================================================================
 ===== https://www.paypal.com/donate?hosted_button_id=JVYSC6ZYCNQQQ ======
 =========================================================================
 
 >>---> Press ctrl + c to kill the bot.
 
->>---> Some configs can be fount in the config.yaml file.
-"""
+>>---> Some configs can be found in the config.yaml file."""
 
 
 print(cat)
+time.sleep(4)
 
 
 if __name__ == '__main__':
